@@ -52,13 +52,34 @@
   }
 
   /* ══ TELAS: um deslize = uma tela inteira ════════════════════════════ */
+  // Serviços: no computador ficam dois por tela; no celular cada serviço ganha a sua tela.
+  // O id do serviço passa para a nova tela, então links como #servico-redes funcionam nos dois modos.
+  const modoCelular = innerWidth <= 860;
+  if (modoCelular) {
+    document.querySelectorAll(".tela--par").forEach((sec) => {
+      sec.querySelectorAll(".meia[id]").forEach((m, i) => {
+        if (i === 0) { sec.dataset.titulo = m.dataset.titulo || sec.dataset.titulo; return; }
+        const nova = document.createElement("section");
+        nova.className = "tela tela--par";
+        nova.id = m.id; m.removeAttribute("id");
+        nova.dataset.titulo = m.dataset.titulo || "";
+        const img = sec.querySelector(`img[data-de="${nova.id}"]`);
+        if (img) nova.appendChild(img);
+        const c = document.createElement("div"); c.className = "conteudo";
+        const par = document.createElement("div"); par.className = "par";
+        par.appendChild(m); c.appendChild(par); nova.appendChild(c);
+        sec.after(nova);
+      });
+    });
+  }
+
   const trilho = document.querySelector(".trilho");
   const telas = [...trilho.querySelectorAll(":scope > .tela")];
   const topo = document.querySelector(".topo");
   const whats = document.querySelector(".whats");
   const pontos = document.querySelector(".pontos");
   const linksMenu = [...document.querySelectorAll(".menu a")];
-  let indice = 0, travado = false, ultimoEvento = 0;
+  let indice = 0, travado = false, trava = 0, pendente = 0;
 
   telas.forEach((t, i) => {
     const b = document.createElement("button");
@@ -78,7 +99,7 @@
   const atualizarUI = () => {
     const id = telas[indice].id;
     topo.classList.toggle("rolou", indice > 0);
-    whats && whats.classList.toggle("visivel", indice > 0 && id !== "contato");
+    whats && whats.classList.add("visivel");
     pontos && [...pontos.children].forEach((b, i) => b.classList.toggle("atual", i === indice));
     linksMenu.forEach((a) => {
       const alvo = document.querySelector(a.getAttribute("href"));
@@ -97,17 +118,22 @@
     t.querySelectorAll(".revelar").forEach((e) => e.classList.add("visto"));
     posicionar(imediato);
     travado = true;
-    setTimeout(() => (travado = false), imediato ? 50 : 1050);
+    clearTimeout(trava);
+    trava = setTimeout(() => {
+      travado = false;
+      // Um gesto feito durante a transição não se perde: executa assim que ela libera
+      if (pendente) { const d = pendente; pendente = 0; ir(indice + d); }
+    }, imediato ? 50 : 650);
     atualizarUI();
     history.replaceState(null, "", i === 0 ? location.pathname + location.search : `#${t.id}`);
   }
 
   const proxima = () => {
-    if (travado) return;
+    if (travado) { pendente = 1; return; }
     ir(indice + 1);
   };
   const anterior = () => {
-    if (travado) return;
+    if (travado) { pendente = -1; return; }
     ir(indice - 1);
   };
 
@@ -118,16 +144,27 @@
     return dir > 0 ? t.scrollTop + t.clientHeight < t.scrollHeight - 2 : t.scrollTop > 2;
   };
 
-  // Roda do mouse / trackpad: um gesto = uma tela (a inércia do trackpad é ignorada)
+  // Roda do mouse / trackpad: cada gesto = uma tela.
+  // Depois de mudar de tela, a "inércia" (eventos que continuam chegando, cada vez mais fracos)
+  // é ignorada; um gesto novo é reconhecido quando: há uma pausa curta, a direção muda, ou os
+  // eventos voltam a ficar mais fortes (dedo deslizando de novo por cima da inércia).
+  let armado = true, ultimoEvento = 0, ultimoForca = 0, ultimaDir = 0, disparou = 0;
   addEventListener("wheel", (e) => {
     if (e.ctrlKey) return;
     const dir = Math.sign(e.deltaY);
     if (!dir) return;
-    const agora = performance.now(), novoGesto = agora - ultimoEvento > 220;
-    ultimoEvento = agora;
+    const agora = performance.now();
+    const forca = Math.abs(e.deltaY) * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? 800 : 1);
+    const pausa = agora - ultimoEvento > 140;
+    const virou = dir !== ultimaDir;
+    const acelerou = agora - disparou > 300 && forca > ultimoForca * 1.6 + 3;
+    if (pausa || virou || acelerou) armado = true;
+    ultimoEvento = agora; ultimoForca = forca; ultimaDir = dir;
     if (rolaPorDentro(dir)) return;
     e.preventDefault();
-    if (!novoGesto || Math.abs(e.deltaY) < 4) return;
+    if (!armado) return;
+    // Qualquer movimento conta: o primeiro evento de um gesto novo já muda de tela
+    armado = false; disparou = agora;
     dir > 0 ? proxima() : anterior();
   }, { passive: false });
 
@@ -184,7 +221,60 @@
   /* ── Encaixe: o conteúdo de cada tela sempre cabe no monitor ─────────── */
   // No desktop o conteúdo é reduzido proporcionalmente até caber; no celular, se não couber,
   // a tela rola por dentro (texto pequeno demais seria ilegível).
+  // Avaliação em faixa (tela do serviço sozinho): a menor largura em que a citação cabe em duas linhas
+  const estreitarFaixas = () => {
+    document.querySelectorAll(".depo--faixa blockquote").forEach((q) => {
+      q.style.width = "";
+      if (innerWidth <= 860) return; // no celular ocupa a largura toda
+      const c = q.closest(".conteudo"), zoom = c ? c.style.zoom : "";
+      if (c) c.style.zoom = ""; // mede sem o zoom de encaixe
+      const lh = parseFloat(getComputedStyle(q).lineHeight);
+      const linhas = () => Math.round(q.getBoundingClientRect().height / lh);
+      q.style.width = "max-content"; // largura do texto inteiro numa linha só
+      const umaLinha = Math.ceil(q.getBoundingClientRect().width);
+      let w = Math.ceil(umaLinha / 2);
+      q.style.width = `${w}px`;
+      while (linhas() > 2 && w < umaLinha) { w += 4; q.style.width = `${w}px`; }
+      if (c) c.style.zoom = zoom;
+    });
+  };
+
+  // Avaliação da tela 01: reduz a fonte só o necessário para a citação ficar em duas linhas
+  const duasLinhas = () => {
+    document.querySelectorAll(".grade-sobre .depo blockquote").forEach((q) => {
+      q.style.fontSize = "";
+      if (innerWidth <= 860) return;
+      const c = q.closest(".conteudo"), zoom = c ? c.style.zoom : "";
+      if (c) c.style.zoom = "";
+      let fs = parseFloat(getComputedStyle(q).fontSize);
+      const linhas = () => Math.round(q.getBoundingClientRect().height / parseFloat(getComputedStyle(q).lineHeight));
+      while (linhas() > 2 && fs > 14) { fs -= 0.5; q.style.fontSize = `${fs}px`; }
+      if (c) c.style.zoom = zoom;
+    });
+  };
+
+  // Quadro do plantão (abertura): largura igual à da linha de texto mais longa,
+  // para a margem interna da direita ficar igual à da esquerda
+  const ajustarPlantao = () => {
+    document.querySelectorAll(".momento--plantao").forEach((m) => {
+      m.style.width = "";
+      let maior = 0;
+      m.querySelectorAll("p").forEach((p) => {
+        const r = document.createRange();
+        r.selectNodeContents(p);
+        [...r.getClientRects()].forEach((ret) => (maior = Math.max(maior, ret.width)));
+      });
+      if (!maior) return;
+      const cs = getComputedStyle(m);
+      const extra = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
+      m.style.width = `${Math.ceil(maior + extra + 1)}px`;
+    });
+  };
+
   const encaixar = () => {
+    ajustarPlantao();
+    estreitarFaixas();
+    duasLinhas();
     const desktop = innerWidth > 860;
     telas.forEach((t) => {
       const c = t.querySelector(":scope > .conteudo");
@@ -194,7 +284,8 @@
       const cs = getComputedStyle(t);
       const disponivel = t.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
       const necessario = c.scrollHeight;
-      let z = Math.min(1, (disponivel * 0.98) / necessario); // 2% de folga
+      // Só reduz quando não cabe (telas que preenchem a altura toda não perdem 2% à toa)
+      let z = necessario <= disponivel + 1 ? 1 : Math.min(1, (disponivel * 0.98) / necessario); // 2% de folga
       z = Math.max(z, desktop ? 0.5 : 0.86);
       if (z < 1) c.style.zoom = z.toFixed(3);
       if (c.getBoundingClientRect().height > disponivel + 2) t.classList.add("rolavel");
@@ -203,10 +294,17 @@
 
   const aoRedimensionar = () => { medirVh(); encaixar(); posicionar(true); };
   let espera;
-  addEventListener("resize", () => { clearTimeout(espera); espera = setTimeout(aoRedimensionar, 120); });
+  addEventListener("resize", () => {
+    // Passou do computador para o celular (ou o contrário): remonta as telas de serviços
+    if ((innerWidth <= 860) !== modoCelular) return location.reload();
+    clearTimeout(espera); espera = setTimeout(aoRedimensionar, 120);
+  });
   encaixar();
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(encaixar);
   addEventListener("load", encaixar);
+  // Fontes que chegam depois (ex.: o itálico das avaliações) mudam a largura do texto: recalcula
+  if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener("loadingdone", encaixar);
+  if (document.fonts && document.fonts.load) document.fonts.load('italic 20px "Instrument Serif"').then(encaixar, () => {});
 
   // Abre direto na tela do endereço (#contato etc.)
   const inicial = location.hash && document.querySelector(location.hash);

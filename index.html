@@ -27,7 +27,6 @@
     <a href="#servicos">Serviços</a>
     <a href="#solucoes">Soluções</a>
     <a href="#parceiros">Parceiros</a>
-    <a href="#depoimentos">Depoimentos</a>
     <a href="#contato" class="menu-cta">Fale conosco</a>
   </nav>
 </header>
@@ -61,7 +60,8 @@
 
   <!-- 01 · PHSUL 30 ANOS -->
   <section id="sobre" class="tela" data-titulo="PHSUL 30 anos">
-    <div class="conteudo grade-2">
+    <img class="arte arte--esquerda arte--sobre" src="assets/img/sobre-escritorio.webp" alt="" loading="lazy">
+    <div class="conteudo grade-2 grade-sobre">
       <div class="painel revelar">
         <span class="rotulo">01 · PHSUL 30 ANOS</span>
         <h2>Desde 1996, cuidando da central que não pode parar.</h2>
@@ -81,109 +81,115 @@
         <!-- EXEMPLO: depoimento fictício. Trocar por depoimento real antes de publicar. -->
         <figure class="painel depo revelar" data-exemplo>
           <span class="depo-foto" aria-hidden="true">RM</span>
-          <blockquote>“Nossa central tem mais de quinze anos e nunca ficou fora do ar. Quando algo acontece de madrugada, alguém da PHSUL atende.”</blockquote>
+          <blockquote>“Nossa central tem mais de quinze anos e nunca ficou fora do ar. Quando algo acontece de madrugada, a PHSUL atende.”</blockquote>
           <figcaption><strong>Ricardo Menezes</strong><span>Coordenador de Infraestrutura · Grupo Altamira Saúde</span></figcaption>
         </figure>
       </div>
     </div>
   </section>
 
-  <!-- 02 · SERVIÇOS (uma tela por serviço) -->
-  <section id="servicos" class="tela" data-titulo="Serviços · PABX">
-    <img class="arte arte--direita" src="assets/img/servico-pabx.webp" alt="" loading="lazy">
+  <!-- 02 · SERVIÇOS
+       Computador: dois serviços por tela, separados por uma linha vertical e em ordem invertida
+       (texto em cima à esquerda / embaixo à direita, e vice-versa), com a imagem no canto oposto.
+       Celular: o app.js separa cada par em duas telas (um serviço por tela). -->
+  <section id="servicos" class="tela tela--par" data-titulo="Serviços · PABX e Redes">
+    <img class="arte arte--q arte--q-esq arte--q-base" data-de="servico-pabx" src="assets/img/servico-pabx.webp" alt="" loading="lazy">
+    <img class="arte arte--q arte--q-dir arte--q-topo" data-de="servico-redes" src="assets/img/servico-redes.webp" alt="" loading="lazy">
     <div class="conteudo">
-      <div class="painel painel--estreito revelar">
+      <div class="servicos-cabeca revelar">
         <span class="rotulo">02 · SERVIÇOS</span>
         <h2>Da central telefônica ao último ponto de rede.</h2>
-        <div class="servico-bloco">
-          <span class="rotulo rotulo--sub">02.1</span>
-          <h3>Manutenção e suporte de PABX</h3>
-          <p>Manutenção preventiva e corretiva, diagnóstico de placas de ramal e tronco, configuração de troncos SIP e reprogramação de URAs, filas e grupos de busca. Somos especialistas em Grandstream, Leucotron, Alcatel-Lucent, Ericsson-LG, NEC e Philips.</p>
-          <a class="link-servico" href="#contato" data-assunto="MANUTENÇÃO &amp; SUPORTE">Solicitar atendimento técnico</a>
+      </div>
+      <div class="par">
+        <div class="meia meia--topo" id="servico-pabx" data-titulo="Serviços · PABX">
+          <div class="painel revelar">
+            <span class="rotulo">02.1 · SERVIÇOS</span>
+            <h3>Manutenção e suporte de PABX</h3>
+            <p>Manutenção preventiva e corretiva, diagnóstico de placas de ramal e tronco, configuração de troncos SIP e reprogramação de URAs, filas e grupos de busca. Somos especialistas em Grandstream, Leucotron, Alcatel-Lucent, Ericsson-LG, NEC e Philips.</p>
+            <a class="link-servico" href="#contato" data-assunto="MANUTENÇÃO &amp; SUPORTE">Solicitar atendimento técnico</a>
+          </div>
+        </div>
+        <div class="meia meia--base" id="servico-redes" data-titulo="Serviços · Redes">
+          <div class="painel revelar">
+            <span class="rotulo">02.2 · SERVIÇOS</span>
+            <h3>Infraestrutura de redes e cabeamento estruturado</h3>
+            <p>Projetos normatizados em CAT5e, CAT6, CAT6a e fibra óptica, com certificação de cada ponto. Instalamos racks, switches, servidores e antenas, tudo organizado e identificado, para que a próxima manutenção leve minutos e não horas.</p>
+            <a class="link-servico" href="#contato" data-assunto="COMERCIAL">Pedir um diagnóstico da rede</a>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="servico-redes" class="tela" data-titulo="Serviços · Redes">
-    <img class="arte arte--esquerda" src="assets/img/servico-redes.webp" alt="" loading="lazy">
+  <section id="servicos-2" class="tela tela--par" data-titulo="Serviços · Wi-Fi e CFTV">
+    <img class="arte arte--q arte--q-esq arte--q-topo arte--wifi" data-de="servico-wifi" src="assets/img/servico-wifi.webp" alt="" loading="lazy">
+    <img class="arte arte--q arte--q-dir arte--q-base" data-de="servico-cftv" src="assets/img/servico-cftv.webp" alt="" loading="lazy">
     <div class="conteudo">
-      <div class="coluna coluna--direita">
-        <div class="painel revelar">
-          <span class="rotulo">02.2 · SERVIÇOS</span>
-          <h3>Infraestrutura de redes e cabeamento estruturado</h3>
-          <p>Projetos normatizados em CAT5e, CAT6, CAT6a e fibra óptica, com certificação de cada ponto. Instalamos racks, switches, servidores e antenas, tudo organizado e identificado, para que a próxima manutenção leve minutos e não horas.</p>
-          <a class="link-servico" href="#contato" data-assunto="COMERCIAL">Pedir um diagnóstico da rede</a>
+      <div class="par">
+        <div class="meia meia--base" id="servico-wifi" data-titulo="Serviços · Wi-Fi">
+          <div class="painel revelar">
+            <span class="rotulo">02.3 · SERVIÇOS</span>
+            <h3>Wi-Fi corporativo e gestão de conectividade</h3>
+            <p>Projeto de cobertura sem pontos cegos, das salas de reunião aos depósitos. Rede de visitantes separada da rede interna, controle de banda por usuário e roaming entre access points, para ninguém perder a chamada ao trocar de sala.</p>
+            <a class="link-servico" href="#contato" data-assunto="COMERCIAL">Planejar a cobertura</a>
+          </div>
         </div>
-        <!-- EXEMPLO: depoimento fictício. Trocar por depoimento real antes de publicar. -->
-        <figure class="painel depo revelar" data-exemplo>
-          <span class="depo-foto" aria-hidden="true">FL</span>
-          <blockquote>“Refizeram o cabeamento do prédio inteiro em um fim de semana. Na segunda-feira a operação abriu normalmente, com cada ponto identificado no rack.”</blockquote>
-          <figcaption><strong>Fernanda Lopes</strong><span>Gerente Administrativa · Construtora Vale do Guaíba</span></figcaption>
-        </figure>
+        <div class="meia meia--topo" id="servico-cftv" data-titulo="Serviços · CFTV">
+          <div class="painel revelar">
+            <span class="rotulo">02.4 · SERVIÇOS</span>
+            <h3>Controle de acesso e segurança eletrônica (CFTV)</h3>
+            <p>Câmeras IP Full HD e 4K com acesso remoto, detecção de movimento, cercas virtuais e alertas automáticos. Leitores de crachá RFID, teclados, trancas eletroímã e registro de cada entrada e saída, com gravação local ou em nuvem.</p>
+            <a class="link-servico" href="#contato" data-assunto="COMERCIAL">Avaliar a segurança do local</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="servico-wifi" class="tela" data-titulo="Serviços · Wi-Fi">
-    <img class="arte arte--direita" src="assets/img/servico-wifi.webp" alt="" loading="lazy">
-    <div class="conteudo">
-      <div class="painel painel--estreito revelar">
-        <span class="rotulo">02.3 · SERVIÇOS</span>
-        <h3>Wi-Fi corporativo e gestão de conectividade</h3>
-        <p>Projeto de cobertura sem pontos cegos, das salas de reunião aos depósitos. Rede de visitantes separada da rede interna, controle de banda por usuário e roaming entre access points, para ninguém perder a chamada ao trocar de sala.</p>
-        <a class="link-servico" href="#contato" data-assunto="COMERCIAL">Planejar a cobertura</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="servico-cftv" class="tela" data-titulo="Serviços · CFTV">
-    <img class="arte arte--esquerda" src="assets/img/servico-cftv.webp" alt="" loading="lazy">
-    <div class="conteudo">
-      <div class="painel painel--estreito painel--direita revelar">
-        <span class="rotulo">02.4 · SERVIÇOS</span>
-        <h3>Controle de acesso e segurança eletrônica (CFTV)</h3>
-        <p>Câmeras IP Full HD e 4K com acesso remoto, detecção de movimento, cercas virtuais e alertas automáticos. Leitores de crachá RFID, teclados, trancas eletroímã e registro de cada entrada e saída, com gravação local ou em nuvem.</p>
-        <a class="link-servico" href="#contato" data-assunto="COMERCIAL">Avaliar a segurança do local</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="servico-custos" class="tela" data-titulo="Serviços · Custos">
-    <img class="arte arte--direita" src="assets/img/servico-custos.webp" alt="" loading="lazy">
-    <div class="conteudo">
+  <!-- Último serviço sozinho: imagem ocupando quase toda a tela, do lado oposto ao texto,
+       e a avaliação centralizada embaixo -->
+  <section id="servico-custos" class="tela tela--solo" data-titulo="Serviços · Custos">
+    <img class="arte arte--direita arte--solo" src="assets/img/servico-custos.webp" alt="" loading="lazy">
+    <div class="conteudo solo">
       <div class="painel painel--estreito revelar">
         <span class="rotulo">02.5 · SERVIÇOS</span>
         <h3>Gerenciamento e redução de custos</h3>
         <p>Auditoria das contas de telefonia fixa e móvel, contestação de cobranças indevidas, tarifação por centro de custo e portabilidade numérica sem interrupção. Somos parceiros do cliente, não das operadoras: nossos clientes alcançam até 30% de economia média no primeiro semestre.</p>
         <a class="link-servico" href="#contato" data-assunto="COMERCIAL">Auditar minhas contas</a>
       </div>
+      <!-- EXEMPLO: depoimento fictício. Trocar por depoimento real antes de publicar. -->
+      <figure class="painel depo depo--faixa revelar" data-exemplo>
+        <span class="depo-foto" aria-hidden="true">FL</span>
+        <blockquote>“Refizeram o cabeamento do prédio inteiro em um fim de semana. Na segunda-feira a operação abriu normalmente, com cada ponto identificado no rack.”</blockquote>
+        <figcaption><strong>Fernanda Lopes</strong><span>Gerente Administrativa · Construtora Vale do Guaíba</span></figcaption>
+      </figure>
     </div>
   </section>
 
-  <!-- 03 · SOLUÇÕES -->
-  <section id="solucoes" class="tela" data-titulo="Soluções">
+  <!-- 03 · SOLUÇÕES: título no alto (como em Serviços), soluções num quadro no centro
+       e a avaliação centralizada embaixo (como na tela do serviço 02.5) -->
+  <section id="solucoes" class="tela tela--solucoes" data-titulo="Soluções">
     <img class="arte arte--esquerda" src="assets/img/solucoes.webp" alt="" loading="lazy">
     <div class="conteudo">
-      <div class="coluna coluna--direita coluna--larga">
-        <div class="painel revelar">
-          <span class="rotulo">03 · SOLUÇÕES</span>
-          <h2>Telefonia corporativa, para venda ou locação.</h2>
-          <dl class="solucoes">
-            <div><dt>PABX em nuvem</dt><dd>Central como serviço, sem servidor local, integrada ao Microsoft Teams, com URA por reconhecimento de voz e gravação em conformidade com a LGPD.</dd></div>
-            <div><dt>IP PABX e centrais híbridas</dt><dd>Grandstream UCM, Leucotron Ision IP, Alcatel-Lucent OXO, Philips Sopho iS3000, NEC SV8100 e SL1000, Ericsson-LG.</dd></div>
-            <div><dt>Telefones e terminais</dt><dd>Telefones IP com e sem fio, aparelhos digitais e telefones executivos.</dd></div>
-            <div><dt>Videoconferência e headsets</dt><dd>Kandao para salas de reunião; headsets TOPUse e Plantronics para quem passa o dia ao telefone.</dd></div>
-            <div><dt>Call center e tarifador</dt><dd>Posições de atendimento sob demanda, discador, pesquisa de satisfação e relatórios de SLA, TME e TMA.</dd></div>
-          </dl>
-        </div>
-        <!-- EXEMPLO: depoimento fictício. Trocar por depoimento real antes de publicar. -->
-        <figure class="painel depo revelar" data-exemplo>
-          <span class="depo-foto" aria-hidden="true">PA</span>
-          <blockquote>“Levamos o PABX para a nuvem e integramos ao Teams. Os corretores atendem o número da imobiliária de qualquer plantão.”</blockquote>
-          <figcaption><strong>Paulo Azevedo</strong><span>Diretor · Imobiliária Casa Nobre</span></figcaption>
-        </figure>
+      <div class="servicos-cabeca revelar">
+        <span class="rotulo">03 · SOLUÇÕES</span>
+        <h2>Telefonia corporativa, para venda ou locação.</h2>
       </div>
+      <div class="painel painel--solucoes revelar">
+        <dl class="solucoes">
+          <div><dt>PABX em nuvem</dt><dd>Central como serviço, sem servidor local, integrada ao Microsoft Teams, com URA por reconhecimento de voz e gravação em conformidade com a LGPD.</dd></div>
+          <div><dt>IP PABX e centrais híbridas</dt><dd>Grandstream UCM, Leucotron Ision IP, Alcatel-Lucent OXO, Philips Sopho iS3000, NEC SV8100 e SL1000, Ericsson-LG.</dd></div>
+          <div><dt>Telefones e terminais</dt><dd>Telefones IP com e sem fio, aparelhos digitais e telefones executivos.</dd></div>
+          <div><dt>Videoconferência e headsets</dt><dd>Kandao para salas de reunião; headsets TOPUse e Plantronics para quem passa o dia ao telefone.</dd></div>
+          <div><dt>Call center e tarifador</dt><dd>Posições de atendimento sob demanda, discador, pesquisa de satisfação e relatórios de SLA, TME e TMA.</dd></div>
+        </dl>
+      </div>
+      <!-- EXEMPLO: depoimento fictício. Trocar por depoimento real antes de publicar. -->
+      <figure class="painel depo depo--faixa revelar" data-exemplo>
+        <span class="depo-foto" aria-hidden="true">PA</span>
+        <blockquote>“Levamos o PABX para a nuvem e integramos ao Teams. Os corretores atendem o número da imobiliária de qualquer plantão.”</blockquote>
+        <figcaption><strong>Paulo Azevedo</strong><span>Diretor · Imobiliária Casa Nobre</span></figcaption>
+      </figure>
     </div>
   </section>
 
@@ -214,50 +220,16 @@
           <li><img src="assets/parceiros/cigame.webp" alt="Cigame" loading="lazy"></li>
         </ul>
       </div>
-      <!-- EXEMPLO: depoimento fictício. Trocar por depoimento real antes de publicar. -->
-      <figure class="painel depo depo--largo revelar" data-exemplo>
-        <span class="depo-foto" aria-hidden="true">JP</span>
-        <blockquote>“Temos centrais de três fabricantes diferentes nas nossas unidades. A PHSUL atende todas, sem precisar acionar o fabricante.”</blockquote>
-        <figcaption><strong>Juliana Prates</strong><span>Gerente de TI · Rede Pampa Inn Hotéis</span></figcaption>
-      </figure>
     </div>
   </section>
 
-  <!-- 05 · DEPOIMENTOS -->
-  <!-- EXEMPLO: depoimentos fictícios. Trocar por depoimentos reais antes de publicar. -->
-  <section id="depoimentos" class="tela" data-titulo="Depoimentos">
-    <div class="conteudo coluna">
-      <div class="painel revelar">
-        <span class="rotulo">05 · DEPOIMENTOS</span>
-        <h2>Quem atende o telefone o dia inteiro sabe a diferença.</h2>
-      </div>
-      <div class="grade-depos">
-        <figure class="painel depo revelar" data-exemplo>
-          <span class="depo-foto" aria-hidden="true">CF</span>
-          <blockquote>“O Wi-Fi dos hóspedes ficou separado da rede interna, e as reclamações na recepção acabaram.”</blockquote>
-          <figcaption><strong>Camila Fontes</strong><span>Gerente Geral · Hotel Jardim do Lago</span></figcaption>
-        </figure>
-        <figure class="painel depo revelar" data-exemplo>
-          <span class="depo-foto" aria-hidden="true">MR</span>
-          <blockquote>“A auditoria das contas encontrou cobranças que pagávamos havia anos. O contrato se pagou no primeiro trimestre.”</blockquote>
-          <figcaption><strong>Marcos Ribeiro</strong><span>Controller · Distribuidora Sul Atlântico</span></figcaption>
-        </figure>
-        <figure class="painel depo revelar" data-exemplo>
-          <span class="depo-foto" aria-hidden="true">AK</span>
-          <blockquote>“Licitação exige documentação em dia e prazo cumprido. A PHSUL entregou as duas coisas, e o suporte continua igual.”</blockquote>
-          <figcaption><strong>André Kunz</strong><span>Chefe da Divisão de TI · Autarquia Municipal de Serviços</span></figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- 06 · FALE CONOSCO (com o rodapé) -->
+  <!-- 05 · FALE CONOSCO (com o rodapé) -->
   <section id="contato" class="tela" data-titulo="Fale conosco">
     <img class="arte arte--fundo arte--ceu" src="assets/img/contato.webp" alt="" loading="lazy">
     <div class="conteudo coluna">
       <div class="contato-grade">
         <div class="painel painel--form revelar">
-          <span class="rotulo">06 · FALE CONOSCO</span>
+          <span class="rotulo">05 · FALE CONOSCO</span>
           <h2>Conte o que precisa. Um especialista responde.</h2>
           <form class="form" novalidate>
             <div class="campo">
@@ -297,17 +269,6 @@
             <p class="form-status campo--inteiro" role="status" aria-live="polite"></p>
           </form>
         </div>
-
-        <aside class="painel contato-info revelar">
-          <h3>PHSUL · Comunicação e Tecnologia</h3>
-          <dl>
-            <div><dt>Endereço</dt><dd>Av. do Forte, nº 557, sala 213<br>Porto Alegre, RS</dd></div>
-            <div><dt>Telefone</dt><dd><a href="tel:+555121083030">+55 (51) 2108-3030</a></dd></div>
-            <div><dt>E-mail</dt><dd><a href="mailto:phsul@phsul.com.br">phsul@phsul.com.br</a></dd></div>
-            <div><dt>Plantão técnico</dt><dd>24 horas, 7 dias por semana</dd></div>
-          </dl>
-          <a class="botao botao--contorno" data-whats target="_blank" rel="noopener">Conversar no WhatsApp</a>
-        </aside>
       </div>
 
       <footer class="painel rodape-painel">
@@ -322,7 +283,7 @@
 
 <nav class="pontos" aria-label="Navegação entre telas"></nav>
 
-<a class="whats" target="_blank" rel="noopener" aria-label="Conversar no WhatsApp">
+<a class="whats visivel" target="_blank" rel="noopener" aria-label="Conversar no WhatsApp">
   <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3C9 3 3.3 8.6 3.3 15.6c0 2.4.7 4.7 1.9 6.7L3 29l6.9-2.1c1.9 1 4 1.6 6.1 1.6 7 0 12.7-5.6 12.7-12.6S23 3 16 3Zm0 23.1c-1.9 0-3.8-.5-5.4-1.5l-.4-.2-4.1 1.2 1.3-4-.3-.4a10.4 10.4 0 0 1-1.6-5.6C5.5 9.8 10.2 5.2 16 5.2s10.5 4.6 10.5 10.4S21.8 26.1 16 26.1Zm5.8-7.8c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.6-.9-.8-1.6-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6.3-.5c.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.4c.2.2 2.4 3.6 5.7 5 .8.4 1.4.6 1.9.7.8.3 1.6.2 2.2.1.7-.1 1.9-.8 2.2-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4Z"/></svg>
 </a>
 

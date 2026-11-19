@@ -115,8 +115,9 @@ p { margin: 0 0 .9em; color: var(--texto-suave); text-wrap: pretty; }
 }
 .cine-video, .cine-vinheta { z-index: 0; }
 .momento { position: relative; z-index: 1; }
-.momento--titulo { grid-area: 1 / 1; justify-self: start; align-self: start; max-width: min(680px, 46vw); padding: clamp(20px, min(2.6vw, 3.8vh), 40px) clamp(22px, 2.8vw, 44px); }
-.momento--plantao { grid-area: 1 / 2 / 3 / 3; justify-self: end; align-self: center; top: 5vh; max-width: min(480px, 34vw); padding: clamp(20px, min(2.4vw, 3.6vh), 36px) clamp(22px, 2.6vw, 40px); }
+/* Abertura: título à esquerda, centralizado na altura; plantão no alto à direita; chamada embaixo no centro */
+.momento--titulo { grid-area: 1 / 1 / 3 / 2; justify-self: start; align-self: center; max-width: min(680px, 46vw); padding: clamp(20px, min(2.6vw, 3.8vh), 40px) clamp(22px, 2.8vw, 44px); }
+.momento--plantao { grid-area: 1 / 2; justify-self: end; align-self: start; max-width: min(480px, 34vw); padding: clamp(20px, min(2.4vw, 3.6vh), 36px) clamp(22px, 2.6vw, 40px); }
 .momento--cta { grid-area: 3 / 1 / 4 / 3; justify-self: center; align-self: end; text-align: center; left: 18px; /* compensa a margem dos pontos à direita: centro exato da tela */ }
 .momento--cta .destaque { white-space: nowrap; }
 .momento--plantao .destaque { font-size: clamp(24px, min(2.5vw, 4.3vh), 40px); }
@@ -145,7 +146,7 @@ p { margin: 0 0 .9em; color: var(--texto-suave); text-wrap: pretty; }
   -webkit-backdrop-filter: blur(18px) saturate(1.1);
 }
 .painel > :last-child { margin-bottom: 0; }
-.rotulo { display: block; font-size: 12px; letter-spacing: .3em; color: var(--acento); margin-bottom: clamp(10px, 1.8vh, 18px); }
+.rotulo { display: block; font-size: 12px; letter-spacing: .3em; color: var(--acento); font-weight: 600; margin-bottom: clamp(10px, 1.8vh, 18px); }
 .rotulo--sub { margin-bottom: 6px; }
 .servico-bloco { margin-top: clamp(14px, 2.4vh, 26px); padding-top: clamp(14px, 2.4vh, 26px); border-top: 1px solid var(--linha); }
 
@@ -176,7 +177,8 @@ p { margin: 0 0 .9em; color: var(--texto-suave); text-wrap: pretty; }
   -webkit-mask-image: radial-gradient(closest-side, #000 35%, transparent 100%), linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent);
           mask-image: radial-gradient(closest-side, #000 35%, transparent 100%), linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent);
 }
-.arte--ceu { opacity: .75; }
+/* Céu 25% menor que a tela, centralizado: aparece mais nítido */
+.arte--ceu { opacity: .75; inset: 12.5%; width: 75%; height: 75%; }
 /* A iS3000 fica no fluxo, no alto da coluna direita */
 .produto { margin: 0; display: grid; justify-items: center; gap: 6px; }
 .arte--produto {
@@ -185,7 +187,88 @@ p { margin: 0 0 .9em; color: var(--texto-suave); text-wrap: pretty; }
   -webkit-mask-image: radial-gradient(closest-side, #000 70%, transparent 100%);
           mask-image: radial-gradient(closest-side, #000 70%, transparent 100%);
 }
+/* PHSUL 30 anos: base da avaliação alinhada à base do painel; IS3000 50% maior */
+/* A coluna da central não define a altura da linha (contain: size): ela acompanha o painel
+   "PHSUL 30 anos", que fica onde sempre esteve. A avaliação vai para a base (alinhada à base
+   do painel) e a imagem fica logo acima dela. */
+.grade-sobre .coluna--produto {
+  align-self: stretch; contain: size; display: flex; flex-direction: column; justify-content: flex-end;
+  gap: clamp(14px, 2.4vh, 26px);
+}
+.grade-sobre .produto { position: relative; flex: none; margin-block: auto 0; display: flex; flex-direction: column; align-items: center; }
+.grade-sobre .depo { flex: none; }
+/* Se a imagem não couber acima da avaliação, ela avança para cima, no espaço livre da tela */
+.grade-sobre .arte--produto { height: clamp(200px, 46vh, 560px); }
+/* Legenda colada à imagem (sobre a borda esmaecida), longe da avaliação */
+.grade-sobre .produto figcaption { position: absolute; left: 0; right: 0; bottom: 5%; font-size: 13px; }
 .produto figcaption { font-size: 12px; letter-spacing: .03em; color: var(--texto-suave); opacity: .8; text-align: center; }
+
+/* ── Serviços em pares (computador) ────────────────────────────────────
+   Dois serviços por tela, com uma linha vertical entre eles e em ordem invertida:
+   de um lado o texto fica em cima e a imagem embaixo; do outro, o contrário. */
+.tela--par .conteudo { display: grid; gap: clamp(14px, 2.6vh, 30px); }
+.servicos-cabeca { text-align: center; width: 100%; max-width: 900px; margin-inline: auto; }
+.servicos-cabeca h2 { margin: 0; }
+.tela--solucoes > .conteudo { display: grid; gap: clamp(14px, 2.4vh, 26px); }
+.painel--solucoes .solucoes { margin: 0; }
+.painel--solucoes .solucoes > div:first-child { border-top: 0; padding-top: 0; }
+/* Rótulos sem quadro por trás (02 · SERVIÇOS, 03 · SOLUÇÕES): mais encorpados e mais perto do título */
+.servicos-cabeca .rotulo { margin-bottom: clamp(4px, .7vh, 7px); }
+.par {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: clamp(48px, 7vw, 120px); min-height: min(72vh, 720px);
+}
+#servicos .par { min-height: min(58vh, 600px); }
+.par::before {
+  content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; pointer-events: none;
+  background: linear-gradient(transparent, rgb(1 171 230 / .55) 18%, rgb(238 243 248 / .16) 50%, rgb(1 171 230 / .55) 82%, transparent);
+}
+.meia { display: grid; }
+.meia--topo { align-content: start; }
+.meia--base { align-content: end; }
+.meia > .painel { width: 100%; max-width: 560px; }
+/* Dois serviços na mesma tela: metade da margem interna vertical, para mostrar mais das imagens */
+.meia > .painel { padding-block: clamp(10px, min(1.5vw, 2.2vh), 22px); }
+.meia:first-child > .painel { justify-self: start; }
+.meia:last-child > .painel { justify-self: end; }
+/* Imagem no canto oposto ao texto, dentro da metade da tela do serviço */
+.arte--q { width: 50vw; height: 58%; }
+.arte--q-esq { left: 0; } .arte--q-dir { right: 0; }
+.arte--q-topo { top: 0; } .arte--q-base { bottom: 0; }
+/* Roteador (Wi-Fi): começa abaixo do cabeçalho, para as antenas não ficarem cortadas */
+.arte--wifi { top: var(--topo); width: 46vw; height: 55%; }
+/* PHSUL 30 anos: escritório do lado esquerdo, altura toda, se dissolvendo para a direita */
+.arte--sobre { object-position: 70% center; }
+.arte--q-esq.arte--q-base {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 66%, transparent 98%), linear-gradient(to bottom, transparent, #000 42%, #000 90%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 14%, #000 66%, transparent 98%), linear-gradient(to bottom, transparent, #000 42%, #000 90%, transparent);
+}
+.arte--q-esq.arte--q-topo {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 66%, transparent 98%), linear-gradient(to top, transparent, #000 42%, #000 82%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 14%, #000 66%, transparent 98%), linear-gradient(to top, transparent, #000 42%, #000 82%, transparent);
+}
+.arte--q-dir.arte--q-base {
+  -webkit-mask-image: linear-gradient(to left, transparent, #000 14%, #000 66%, transparent 98%), linear-gradient(to bottom, transparent, #000 42%, #000 90%, transparent);
+          mask-image: linear-gradient(to left, transparent, #000 14%, #000 66%, transparent 98%), linear-gradient(to bottom, transparent, #000 42%, #000 90%, transparent);
+}
+.arte--q-dir.arte--q-topo {
+  -webkit-mask-image: linear-gradient(to left, transparent, #000 14%, #000 66%, transparent 98%), linear-gradient(to top, transparent, #000 42%, #000 82%, transparent);
+          mask-image: linear-gradient(to left, transparent, #000 14%, #000 66%, transparent 98%), linear-gradient(to top, transparent, #000 42%, #000 82%, transparent);
+}
+
+/* Serviço sozinho na tela: imagem cobrindo quase toda a tela do lado oposto ao texto,
+   avaliação centralizada embaixo, larga e baixa (citação em duas linhas) */
+.arte--solo { width: 84vw; }
+.solo { display: grid; grid-template-rows: 1fr auto; gap: clamp(16px, 3vh, 32px); min-height: min(74vh, 740px); }
+.solo > .painel--estreito { align-self: start; }
+.depo--faixa {
+  justify-self: center; align-self: center; margin-inline: auto; width: fit-content; max-width: 100%; align-items: center;
+  padding-block: clamp(14px, min(1.6vw, 2.2vh), 22px);
+}
+.depo--faixa .depo-foto { width: 50px; height: 50px; font-size: 19px; }
+.depo.depo--faixa blockquote { font-size: clamp(17px, min(1.35vw, 2.4vh), 21px); }
+/* Largura da citação calculada no app.js: a menor possível para caber em duas linhas */
+.depo--faixa blockquote { text-wrap: wrap; hyphens: manual; }
 
 .link-servico { display: inline-flex; gap: 10px; align-items: center; font-weight: 600; font-size: 14px; letter-spacing: .03em; color: var(--acento); text-decoration: none; }
 .link-servico::after { content: "→"; transition: transform .4s var(--ease); }
@@ -228,7 +311,7 @@ p { margin: 0 0 .9em; color: var(--texto-suave); text-wrap: pretty; }
 .grade-logos li:hover { transform: translateY(-3px); box-shadow: 0 0 0 2px var(--acento); }
 
 /* ── Contato ───────────────────────────────────────────────────────────── */
-.contato-grade { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: clamp(12px, 2vw, 20px); align-items: stretch; }
+.contato-grade { display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; max-width: 980px; margin-inline: auto; }
 .form { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(8px, 1.4vh, 14px) 16px; margin-top: clamp(8px, 1.6vh, 16px); }
 .campo { display: grid; gap: 4px; }
 .campo--inteiro { grid-column: 1 / -1; }
@@ -247,6 +330,10 @@ p { margin: 0 0 .9em; color: var(--texto-suave); text-wrap: pretty; }
 .campo.erro input { border-color: #d9776b; }
 .pote { position: absolute; left: -9999px; }
 .form-status { min-height: 1.2em; margin: 0; font-size: 14px; }
+.form-status:empty { display: none; }
+.form .botao { margin-top: clamp(12px, 2.4vh, 24px); }
+.painel--form { padding-block: clamp(18px, min(2.4vw, 3.4vh), 34px); }
+#contato .conteudo { gap: clamp(26px, 5.5vh, 60px); }
 .form-status.ok { color: var(--acento); }
 .form-status.falha { color: #e39a90; }
 .contato-info h3 { font-size: clamp(22px, min(1.9vw, 3.4vh), 30px); }
@@ -296,6 +383,21 @@ p { margin: 0 0 .9em; color: var(--texto-suave); text-wrap: pretty; }
 .revelar.visto { opacity: 1; transform: none; }
 
 /* ── Tablet e celular ──────────────────────────────────────────────────── */
+/* Telas de serviços em pares e de soluções (computador): 22px entre o cabeçalho e o conteúdo,
+   36px entre o último quadro e a borda de baixo; o conteúdo ocupa a altura que sobra */
+@media (min-width: 861px) {
+  .tela--par, .tela--solucoes { align-items: stretch; padding-top: calc(var(--topo) + 22px); padding-bottom: 36px; }
+  /* Soluções: título no alto, quadro das soluções no meio, avaliação na base */
+  .tela--solucoes > .conteudo { display: flex; flex-direction: column; height: 100%; gap: clamp(14px, 2.4vh, 26px); }
+  .tela--solucoes .painel--solucoes { margin: auto; width: 100%; max-width: 980px; }
+  .tela--par > .conteudo { display: flex; flex-direction: column; height: 100%; }
+  /* Tela Wi-Fi | CFTV: 02.4 um pouco mais longe do cabeçalho (+25%) e 02.3 mais longe da base (+50%) */
+  #servicos-2 { padding-top: calc(var(--topo) + 28px); padding-bottom: 54px; }
+  /* 02.5: quadro do serviço um pouco mais abaixo */
+  .solo > .painel--estreito { margin-top: 40px; }
+  .tela--par .par { flex: 1; min-height: 0 !important; }
+}
+
 @media (max-width: 860px) {
   :root { --topo: 68px; }
   .marca-logo { height: 34px; }
@@ -303,17 +405,29 @@ p { margin: 0 0 .9em; color: var(--texto-suave); text-wrap: pretty; }
   .grade-2, .contato-grade { grid-template-columns: 1fr; }
   .coluna--produto { order: -1; }
   .arte--produto { height: clamp(90px, 17vh, 220px); }
+  .grade-sobre .coluna--produto { contain: none; display: grid; }
+  .grade-sobre .produto { margin: 0; }
+  .grade-sobre .arte--produto { height: clamp(90px, 17vh, 220px); }
   .produto figcaption { display: none; }
   .coluna--direita, .coluna--larga, .painel--estreito { width: 100%; max-width: none; }
   .arte--direita, .arte--esquerda { left: 0; right: 0; width: 100%; height: 100%; opacity: .45;
     -webkit-mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 70%, transparent);
             mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 70%, transparent); }
   .solucoes { grid-template-columns: 1fr; }
+  .par { grid-template-columns: minmax(0, 1fr); row-gap: clamp(12px, 2vh, 20px); min-height: 0 !important; }
+  .par::before { display: none; }
+  .meia > .painel { max-width: none; padding-block: clamp(20px, min(3vw, 4.4vh), 44px); }
+  .solo { min-height: 0; grid-template-rows: auto; }
+  .depo--faixa { max-width: none; }
+  .servicos-cabeca { text-align: left; }
+  .arte--q { inset: 0; width: 100%; height: 100%; opacity: .45;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 70%, transparent) !important;
+            mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 70%, transparent) !important; }
   .grade-logos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .grade-logos li { height: 54px; padding: 8px 10px; }
   .cine-palco { grid-template-columns: minmax(0, 1fr); padding: calc(var(--topo) + 2vh) var(--gutter) calc(64px + env(safe-area-inset-bottom)); row-gap: 2.4vh; }
   .momento--titulo, .momento--plantao, .momento--cta { padding: 18px 20px; }
-  .momento--titulo { grid-area: 1 / 1; max-width: none; }
+  .momento--titulo { grid-area: 1 / 1; align-self: start; max-width: none; }
   .momento--plantao { grid-area: 2 / 1; max-width: min(340px, 90%); align-self: center; top: 1vh; }
   .momento--plantao .destaque { font-size: clamp(21px, 6vw, 28px); }
   .momento--cta { grid-area: 3 / 1; justify-self: center; padding: 16px 14px; left: 0; }
